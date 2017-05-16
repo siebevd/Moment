@@ -21,6 +21,9 @@ body {
 	font-size: 1.4rem;
 	line-height: 1.5;
 	outline: none;
+	white-space: pre;
+	 word-wrap: normal;
+	 overflow-x: auto;
 }
 
 
