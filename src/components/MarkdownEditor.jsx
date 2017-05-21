@@ -1,6 +1,19 @@
 import { Editor, Raw } from 'slate';
 import React from 'react';
-import initialState from './test.js'
+
+
+const initialContent = (
+	JSON.parse(localStorage.getItem('content')) ||
+	{
+		nodes: [
+			{
+				kind: 'block',
+				type: 'paragraph'
+			}
+		]
+	}
+)
+
 
 /**
  * Define a schema.
@@ -9,206 +22,201 @@ import initialState from './test.js'
  */
 
 const schema = {
-  nodes: {
-    'block-quote': props => <blockquote>{props.children}</blockquote>,
-    'bulleted-list': props => <ul>{props.children}</ul>,
-    'heading-one': props => <h1>{props.children}</h1>,
-    'heading-two': props => <h2>{props.children}</h2>,
-    'heading-three': props => <h3>{props.children}</h3>,
-    'heading-four': props => <h4>{props.children}</h4>,
-    'heading-five': props => <h5>{props.children}</h5>,
-    'heading-six': props => <h6>{props.children}</h6>,
-    'list-item': props => <li>{props.children}</li>,
-  }
+	nodes: {
+		'block-quote': props => <blockquote>{props.children}</blockquote>,
+		'bulleted-list': props => <ul>{props.children}</ul>,
+		'heading-one': props => <h1>{props.children}</h1>,
+		'heading-two': props => <h2>{props.children}</h2>,
+		'heading-three': props => <h3>{props.children}</h3>,
+		'heading-four': props => <h4>{props.children}</h4>,
+		'heading-five': props => <h5>{props.children}</h5>,
+		'heading-six': props => <h6>{props.children}</h6>,
+		'list-item': props => <li>{props.children}</li>,
+	}
 }
-
-/**
- * The auto-markdown example.
- *
- * @type {Component}
- */
 
 class MarkdownEditor extends React.Component {
 
-  /**
-   * Deserialize the raw initial state.
-   *
-   * @type {Object}
-   */
+	/**
+	 * Deserialize the raw initial state.
+	 *
+	 * @type {Object}
+	 */
 
-  state = {
-    state: Raw.deserialize(initialState, { terse: true })
-  };
+	state = {
+		state: Raw.deserialize(initialContent, { terse: true })
+	};
 
-  /**
-   * Get the block type for a series of auto-markdown shortcut `chars`.
-   *
-   * @param {String} chars
-   * @return {String} block
-   */
+	/**
+	 * Get the block type for a series of auto-markdown shortcut `chars`.
+	 *
+	 * @param {String} chars
+	 * @return {String} block
+	 */
 
-  getType = (chars) => {
-    switch (chars) {
-      case '*':
-      case '-':
-      case '+': return 'list-item'
-      case '>': return 'block-quote'
-      case '#': return 'heading-one'
-      case '##': return 'heading-two'
-      case '###': return 'heading-three'
-      case '####': return 'heading-four'
-      case '#####': return 'heading-five'
-      case '######': return 'heading-six'
-      default: return null
-    }
-  }
+	getType = (chars) => {
+		switch (chars) {
+			case '*':
+			case '-':
+			case '+': return 'list-item'
+			case '>': return 'block-quote'
+			case '#': return 'heading-one'
+			case '##': return 'heading-two'
+			case '###': return 'heading-three'
+			case '####': return 'heading-four'
+			case '#####': return 'heading-five'
+			case '######': return 'heading-six'
+			default: return null
+		}
+	}
 
-  /**
-   *
-   * Render the example.
-   *
-   * @return {Component} component
-   */
 
-  render = () => {
-    return (
-      <div className="editor">
-        <Editor
-          schema={schema}
-          state={this.state.state}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-        />
-      </div>
-    )
-  }
 
-  /**
-   * On change.
-   *
-   * @param {State} state
-   */
+	/**
+	 * On change.
+	 *
+	 * @param {State} state
+	 */
 
-  onChange = (state) => {
-    this.setState({ state })
-  }
+	onChange = (state) => {
+		this.setState({ state });
 
-  /**
-   * On key down, check for our specific key shortcuts.
-   *
-   * @param {Event} e
-   * @param {Data} data
-   * @param {State} state
-   * @return {State or Null} state
-   */
+		const content = JSON.stringify(Raw.serialize(state))
+		localStorage.setItem('content', content)
+	}
 
-  onKeyDown = (e, data, state) => {
-    switch (data.key) {
-      case 'space': return this.onSpace(e, state)
-      case 'backspace': return this.onBackspace(e, state)
-      case 'enter': return this.onEnter(e, state)
-    }
-  }
+	/**
+	 * On key down, check for our specific key shortcuts.
+	 *
+	 * @param {Event} e
+	 * @param {Data} data
+	 * @param {State} state
+	 * @return {State or Null} state
+	 */
 
-  /**
-   * On space, if it was after an auto-markdown shortcut, convert the current
-   * node into the shortcut's corresponding type.
-   *
-   * @param {Event} e
-   * @param {State} state
-   * @return {State or Null} state
-   */
+	onKeyDown = (e, data, state) => {
+		switch (data.key) {
+			case 'space': return this.onSpace(e, state)
+			case 'backspace': return this.onBackspace(e, state)
+			case 'enter': return this.onEnter(e, state)
+		}
+	}
 
-  onSpace = (e, state) => {
-    if (state.isExpanded) return
-    const { startBlock, startOffset } = state
-    const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '')
-    const type = this.getType(chars)
+	/**
+	 * On space, if it was after an auto-markdown shortcut, convert the current
+	 * node into the shortcut's corresponding type.
+	 *
+	 * @param {Event} e
+	 * @param {State} state
+	 * @return {State or Null} state
+	 */
 
-    if (!type) return
-    if (type == 'list-item' && startBlock.type == 'list-item') return
-    e.preventDefault()
+	onSpace = (e, state) => {
+		if (state.isExpanded) return
+		const { startBlock, startOffset } = state
+		const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '')
+		const type = this.getType(chars)
 
-    const transform = state
-      .transform()
-      .setBlock(type)
+		if (!type) return
+		if (type == 'list-item' && startBlock.type == 'list-item') return
+		e.preventDefault()
 
-    if (type == 'list-item') transform.wrapBlock('bulleted-list')
+		const transform = state
+			.transform()
+			.setBlock(type)
 
-    state = transform
-      .extendToStartOf(startBlock)
-      .delete()
-      .apply()
+		if (type == 'list-item') transform.wrapBlock('bulleted-list')
 
-    return state
-  }
+		state = transform
+			.extendToStartOf(startBlock)
+			.delete()
+			.apply()
 
-  /**
-   * On backspace, if at the start of a non-paragraph, convert it back into a
-   * paragraph node.
-   *
-   * @param {Event} e
-   * @param {State} state
-   * @return {State or Null} state
-   */
+		return state
+	}
 
-  onBackspace = (e, state) => {
-    if (state.isExpanded) return
-    if (state.startOffset != 0) return
-    const { startBlock } = state
+	/**
+	 * On backspace, if at the start of a non-paragraph, convert it back into a
+	 * paragraph node.
+	 *
+	 * @param {Event} e
+	 * @param {State} state
+	 * @return {State or Null} state
+	 */
 
-    if (startBlock.type == 'paragraph') return
-    e.preventDefault()
+	onBackspace = (e, state) => {
+		if (state.isExpanded) return
+		if (state.startOffset != 0) return
+		const { startBlock } = state
 
-    const transform = state
-      .transform()
-      .setBlock('paragraph')
+		if (startBlock.type == 'paragraph') return
+		e.preventDefault()
 
-    if (startBlock.type == 'list-item') transform.unwrapBlock('bulleted-list')
+		const transform = state
+			.transform()
+			.setBlock('paragraph')
 
-    state = transform.apply()
-    return state
-  }
+		if (startBlock.type == 'list-item') transform.unwrapBlock('bulleted-list')
 
-  /**
-   * On return, if at the end of a node type that should not be extended,
-   * create a new paragraph below it.
-   *
-   * @param {Event} e
-   * @param {State} state
-   * @return {State or Null} state
-   */
+		state = transform.apply()
+		return state
+	}
 
-  onEnter = (e, state) => {
-    if (state.isExpanded) return
-    const { startBlock, startOffset, endOffset } = state
-    if (startOffset == 0 && startBlock.length == 0) return this.onBackspace(e, state)
-    if (endOffset != startBlock.length) return
+	/**
+	 * On return, if at the end of a node type that should not be extended,
+	 * create a new paragraph below it.
+	 *
+	 * @param {Event} e
+	 * @param {State} state
+	 * @return {State or Null} state
+	 */
 
-    if (
-      startBlock.type != 'heading-one' &&
-      startBlock.type != 'heading-two' &&
-      startBlock.type != 'heading-three' &&
-      startBlock.type != 'heading-four' &&
-      startBlock.type != 'heading-five' &&
-      startBlock.type != 'heading-six' &&
-      startBlock.type != 'block-quote'
-    ) {
-      return
-    }
+	onEnter = (e, state) => {
+		if (state.isExpanded) return
+		const { startBlock, startOffset, endOffset } = state
+		if (startOffset == 0 && startBlock.length == 0) return this.onBackspace(e, state)
+		if (endOffset != startBlock.length) return
 
-    e.preventDefault()
-    return state
-      .transform()
-      .splitBlock()
-      .setBlock('paragraph')
-      .apply()
-  }
+		if (
+			startBlock.type != 'heading-one' &&
+			startBlock.type != 'heading-two' &&
+			startBlock.type != 'heading-three' &&
+			startBlock.type != 'heading-four' &&
+			startBlock.type != 'heading-five' &&
+			startBlock.type != 'heading-six' &&
+			startBlock.type != 'block-quote'
+		) {
+			return
+		}
+
+		e.preventDefault()
+		return state
+			.transform()
+			.splitBlock()
+			.setBlock('paragraph')
+			.apply()
+	}
+
+	/**
+	 *
+	 * Render the example.
+	 *
+	 * @return {Component} component
+	 */
+
+	render = () => {
+		return (
+			<div className="editor">
+				<Editor
+					schema={schema}
+					state={this.state.state}
+					onChange={this.onChange}
+					onKeyDown={this.onKeyDown}
+				/>
+			</div>
+		)
+	}
 
 }
-
-/**
- * Export.
- */
 
 export default MarkdownEditor
