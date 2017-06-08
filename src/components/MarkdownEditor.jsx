@@ -1,4 +1,5 @@
 import { Editor, Raw } from 'slate';
+import TodoItem from './TodoItem.jsx';
 import React from 'react';
 
 
@@ -31,9 +32,10 @@ const schema = {
 		'heading-four': props => <h4>{props.children}</h4>,
 		'heading-five': props => <h5>{props.children}</h5>,
 		'heading-six': props => <h6>{props.children}</h6>,
-		'list-item': props => <li>{props.children}</li>,
+		'list-item': TodoItem,
 	}
 }
+
 
 class MarkdownEditor extends React.Component {
 

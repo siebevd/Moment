@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --config webpack.config.js --watch"
+    "dev": "webpack --config webpack.config.js --watch",
+    "prod": "webpack --config webpack.config.js --prod",
   },
   "author": "siebe van dijck <vandijckske@gmail.com>",
   "dependencies": {

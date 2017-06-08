@@ -6,14 +6,24 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
+
 body * {
 	box-sizing: border-box;
+	outline: none
+}
+
+ul {
+	padding-left: 0;
 }
 
 .container {
 	width: 100vw;
 	height: 100vh;
 	display: flex;
+}
+
+div {
+	font-size: 1.2rem;
 }
 
 
@@ -42,4 +52,103 @@ body * {
 	height: 100%;
 	background-size: cover;
 	background-position: center;
+}
+
+
+/* ------------ */
+/*   Check Box  */
+/* ------------ */
+
+.list-check {
+	list-style: none
+
+}
+
+.list-checkbox {
+	display: none;
+}
+
+
+.list-customCheckbox {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	border: 2px solid rgba(0, 0, 0, .1);
+	margin-right: 9px;
+	border-radius: 50%;
+	transition: all .2s;
+}
+
+
+input[type='checkbox']:checked + label {
+	border: 2px solid #FFBD00;
+	position: relative;
+	/*background: #FFBD00;*/
+}
+
+
+
+.list-editable {
+	min-width: 20px;
+	display: inline-block;
+}
+
+.list-checkContainer {
+	display: inline-block;
+}
+/* ------------ */
+/*    Quotes    */
+/* ------------ */
+
+blockquote {
+	margin: 0;
+	padding: 5px 0px 5px 20px;
+	margin: 10px 0;
+	border-left: 3px solid #FFBD00;
+}
+
+
+/* ------------ */
+/*    Titles    */
+/* ------------ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	position: relative;
+}
+
+h1:before,
+h2:before,
+h3:before,
+h4:before,
+h5:before,
+h6:before {
+	content: '#';
+	position: absolute;
+	right: 104%;
+	opacity: .1;
+}
+
+h2:before {
+	content: '##';
+}
+
+h3:before {
+	content: '###';
+}
+
+h4:before {
+	content: '####';
+}
+
+h5:before {
+	content: '#####';
+}
+
+h6:before {
+	content: '######';
 }
