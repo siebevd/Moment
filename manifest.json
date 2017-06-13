@@ -1,8 +1,8 @@
 {
-	"name": "Moment - New Tab notes & tasks",
+	"name": "Moment - New Tab Markdown notes & task list",
 	"homepage_url": "http://siebevd.be",
 	"description": "Don't lose what comes to you in the moment",
-	"version": "0.1.3",
+	"version": "0.1.5",
 	"incognito": "split",
 	"chrome_url_overrides": {
 		"newtab": "blank.html"
