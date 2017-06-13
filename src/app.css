@@ -9,7 +9,7 @@ body {
 
 body * {
 	box-sizing: border-box;
-	outline: none
+	outline: none;
 }
 
 ul {
@@ -32,8 +32,13 @@ div {
 /*   Content  */
 /* ---------- */
 
+p {
+	margin: 0;
+	font-size: 1.1rem;
+}
 
-.editor {
+
+.editorContainer {
 	width: 50%;
 	height: 100%;
 	display: flex;
@@ -46,6 +51,18 @@ div {
 	white-space: pre;
 	word-wrap: normal;
 	overflow-x: auto;
+}
+
+.editor {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 1.4rem;
+	line-height: 1.5;
+	outline: none;
+	white-space: pre;
+	word-wrap: normal;
 }
 
 /* ---------- */
@@ -82,9 +99,18 @@ div {
 /*   Check Box  */
 /* ------------ */
 
-.list-check {
-	list-style: none
+ul {
+	margin: 0;
+}
 
+.list-check {
+	list-style: none;
+	position: relative;
+}
+
+.list-checked .list-editable {
+	text-decoration: line-through;
+	opacity: .2;
 }
 
 .list-checkbox {
@@ -93,19 +119,22 @@ div {
 
 
 .list-customCheckbox {
-	width: 16px;
-	height: 16px;
+	width: 14px;
+	height: 14px;
 	display: inline-block;
-	border: 2px solid rgba(0, 0, 0, .1);
+	border: 2px solid #FFBD00;
 	margin-right: 9px;
 	border-radius: 50%;
 	transition: all .2s;
+	position: absolute;
+	top: 11px;
+	left: -25px;
 }
 
 
 input[type='checkbox']:checked + label {
-	border: 2px solid #FFBD00;
-	position: relative;
+	border: 2px solid rgba(0, 0, 0, .1);
+	/*position: relative;*/
 	/*background: #FFBD00;*/
 }
 
@@ -114,6 +143,7 @@ input[type='checkbox']:checked + label {
 .list-editable {
 	min-width: 20px;
 	display: inline-block;
+	font-size: 1.1rem;
 }
 
 .list-checkContainer {
@@ -142,6 +172,10 @@ h4,
 h5,
 h6 {
 	position: relative;
+}
+
+h1 {
+	margin: 20px 0;
 }
 
 h1:before,

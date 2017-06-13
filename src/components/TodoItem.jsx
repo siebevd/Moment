@@ -2,6 +2,10 @@ import React from 'react';
 
 class TodoItem extends React.Component {
 
+	state = {
+		test: false
+	}
+
 	onChange = (e) => {
 		const checked = e.target.checked
 		const { editor, node } = this.props
@@ -19,8 +23,11 @@ class TodoItem extends React.Component {
 
 		const checked = this.props.node.data.get('checked');
 
+		// console.log('this is checked', checked, this.props.children)
+
+		// console.log('is it checked', checked);
 		return (
-			<li className="list-check">
+			<li className={`list-check ${checked ? 'list-checked': ''}`}>
 				<div contentEditable={false} className="list-checkContainer">
 					<input
 						type="checkbox"

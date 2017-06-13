@@ -9,7 +9,6 @@ class RandomImage extends React.Component {
 	componentWillMount() {
 		getNewPhoto()
 			.then((data)=> {
-				console.log('what is data', data);
 				// Save the image
 				this.setState({
 					image: data.urls.regular,

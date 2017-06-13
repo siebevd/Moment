@@ -5,14 +5,7 @@ import React from 'react';
 
 const initialContent = (
 	JSON.parse(localStorage.getItem('content')) ||
-	{
-		nodes: [
-			{
-				kind: 'block',
-				type: 'paragraph'
-			}
-		]
-	}
+{"document":{"data":{},"kind":"document","nodes":[{"data":{},"kind":"block","isVoid":false,"type":"heading-one","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Hey there.","marks":[]}]}]},{"data":{},"kind":"block","isVoid":false,"type":"paragraph","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Moment supports Markdown. You can create titles by typing # + space","marks":[]}]}]},{"data":{},"kind":"block","isVoid":false,"type":"paragraph","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"","marks":[]}]}]},{"data":{},"kind":"block","isVoid":false,"type":"bulleted-list","nodes":[{"data":{"checked":true},"kind":"block","isVoid":false,"type":"list-item","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Install Chrome extension","marks":[]}]}]}]},{"data":{},"kind":"block","isVoid":false,"type":"bulleted-list","nodes":[{"data":{"checked":false},"kind":"block","isVoid":false,"type":"list-item","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Create task lists by typing -","marks":[]}]}]},{"data":{"checked":false},"kind":"block","isVoid":false,"type":"list-item","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Click the circle to complete the task","marks":[]}]}]}]},{"data":{},"kind":"block","isVoid":false,"type":"bulleted-list","nodes":[{"data":{"checked":false},"kind":"block","isVoid":false,"type":"list-item","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Read articles","marks":[]}]}]},{"data":{"checked":false},"kind":"block","isVoid":false,"type":"list-item","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"Get started","marks":[]}]}]}]},{"data":{"checked":false},"kind":"block","isVoid":false,"type":"paragraph","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"","marks":[]}]}]},{"data":{"checked":true},"kind":"block","isVoid":false,"type":"paragraph","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"","marks":[]}]}]},{"data":{},"kind":"block","isVoid":false,"type":"paragraph","nodes":[{"kind":"text","ranges":[{"kind":"range","text":"","marks":[]}]}]}]},"kind":"state"}
 )
 
 
@@ -32,6 +25,7 @@ const schema = {
 		'heading-four': props => <h4>{props.children}</h4>,
 		'heading-five': props => <h5>{props.children}</h5>,
 		'heading-six': props => <h6>{props.children}</h6>,
+		'paragraph': props => <p>{props.children}</p>,
 		'list-item': TodoItem,
 	}
 }
@@ -119,16 +113,18 @@ class MarkdownEditor extends React.Component {
 		const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '')
 		const type = this.getType(chars)
 
+
 		if (!type) return
 		if (type == 'list-item' && startBlock.type == 'list-item') return
 		e.preventDefault()
 
+
 		const transform = state
 			.transform()
-			.setBlock(type)
+			.setBlock({type, data:{checked: false}}); // lets force false for now
+
 
 		if (type == 'list-item') transform.wrapBlock('bulleted-list')
-
 		state = transform
 			.extendToStartOf(startBlock)
 			.delete()
@@ -174,6 +170,7 @@ class MarkdownEditor extends React.Component {
 	 */
 
 	onEnter = (e, state) => {
+
 		if (state.isExpanded) return
 		const { startBlock, startOffset, endOffset } = state
 		if (startOffset == 0 && startBlock.length == 0) return this.onBackspace(e, state)
@@ -188,15 +185,28 @@ class MarkdownEditor extends React.Component {
 			startBlock.type != 'heading-six' &&
 			startBlock.type != 'block-quote'
 		) {
+
+			if (startBlock.type === 'list-item') {
+				return state
+					.transform()
+					.splitBlock()
+					.setBlock({type: 'list-item', data:{checked: false}})
+					.apply()
+			}
 			return
 		}
 
 		e.preventDefault()
+
 		return state
 			.transform()
 			.splitBlock()
 			.setBlock('paragraph')
 			.apply()
+	}
+
+	clickHandler = () => {
+		document.querySelector('.editor').focus();
 	}
 
 	/**
@@ -208,12 +218,13 @@ class MarkdownEditor extends React.Component {
 
 	render = () => {
 		return (
-			<div className="editor">
+			<div className="editorContainer" onClick={this.clickHandler}>
 				<Editor
 					schema={schema}
 					state={this.state.state}
 					onChange={this.onChange}
 					onKeyDown={this.onKeyDown}
+					className="editor"
 				/>
 			</div>
 		)
