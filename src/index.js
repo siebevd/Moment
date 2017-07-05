@@ -10,8 +10,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="container">
-					<MarkdownEditor />
-					<RandomImage />
+				<MarkdownEditor />
+				<RandomImage />
 			</div>
 		)
 	}

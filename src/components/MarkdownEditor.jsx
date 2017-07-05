@@ -43,6 +43,37 @@ class MarkdownEditor extends React.Component {
 		state: Raw.deserialize(initialContent, { terse: true })
 	};
 
+	componentWillMount(){
+		this.visible = true;
+
+		document.addEventListener('visibilitychange', this.visibilityChangeEvent);
+
+	}
+
+
+	/**
+	 * Event handler for when the visibility changes
+	 *
+	 */
+	visibilityChangeEvent = () => {
+
+
+		if (this.visible && document.hidden) {
+			// Tab is hidden again
+			this.visible = false;
+		}
+
+		if (!this.visible && !document.hidden) {
+			// Tab has become active again
+			this.visible = true;
+
+			// Update the content from local storage
+			let updatedContent = JSON.parse(localStorage.getItem('content')) || initialContent;
+			this.setState({ state: Raw.deserialize(updatedContent, { terse: true }) });
+		}
+
+	}
+
 	/**
 	 * Get the block type for a series of auto-markdown shortcut `chars`.
 	 *
