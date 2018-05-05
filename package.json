@@ -1,41 +1,54 @@
 {
-  "name": "moment",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "webpack --config webpack.config.js --watch",
-    "prod": "webpack --config webpack.config.js"
-  },
-  "author": "siebe van dijck <vandijckske@gmail.com>",
-  "dependencies": {
-    "babel-core": "^6.24.1",
-    "babel-loader": "^6.4.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "css-loader": "^0.28.1",
-    "marked": "^0.3.6",
-    "path": "^0.12.7",
-    "postcss-loader": "^2.0.5",
-    "prismjs": "^1.6.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "slate": "^0.19.30",
-    "style-loader": "^0.17.0",
-    "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.2"
-  },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/siebevd/Moment.git"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/siebevd/Moment/issues"
-  },
-  "homepage": "https://github.com/siebevd/Moment#readme"
+	"name": "moment",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"lint-staged": {
+		"*.{js,jsx}": [
+			"npm run pretty",
+			"git add"
+		]
+	},
+	"scripts": {
+		"precommit": "lint-staged",
+		"pretty": "prettier --write --use-tabs \"src/**/*.(js|jsx)\"",
+		"dev": "webpack --config webpack.config.js --watch",
+		"prod": "webpack --config webpack.config.js"
+	},
+	"author": "siebe van dijck <vandijckske@gmail.com>",
+	"dependencies": {
+		"babel-core": "^6.24.1",
+		"babel-loader": "^6.4.1",
+		"babel-plugin-module-resolver": "^3.1.1",
+		"babel-plugin-transform-decorators-legacy": "^1.3.4",
+		"babel-plugin-transform-object-rest-spread": "^6.23.0",
+		"babel-preset-es2015": "^6.24.1",
+		"babel-preset-react": "^6.24.1",
+		"babel-preset-stage-0": "^6.24.1",
+		"babel-preset-stage-2": "^6.24.1",
+		"classnames": "^2.2.5",
+		"css-loader": "^0.28.1",
+		"lint-staged": "^7.0.5",
+		"marked": "^0.3.6",
+		"path": "^0.12.7",
+		"postcss-loader": "^2.0.5",
+		"prettier": "^1.12.1",
+		"prismjs": "^1.6.0",
+		"react": "^16.3.2",
+		"react-dom": "^16.3.2",
+		"slate": "^0.19.30",
+		"style-loader": "^0.17.0",
+		"webpack": "^2.4.1",
+		"webpack-dev-server": "^2.4.2"
+	},
+	"devDependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/siebevd/Moment.git"
+	},
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/siebevd/Moment/issues"
+	},
+	"homepage": "https://github.com/siebevd/Moment#readme"
 }

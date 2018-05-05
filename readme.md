@@ -13,5 +13,6 @@
 
 1. install `yarn`
 2. run `yarn`
+3. copy `config.example.js` to `config.js` and add the needed api keys
 3. run `yarn dev` to start building
 4. run `yarn prod` to build production version

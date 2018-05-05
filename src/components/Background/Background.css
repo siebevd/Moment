@@ -1,0 +1,85 @@
+/* ------------ */
+/*  Background  */
+/* ------------ */
+
+.background {
+	width: 50%;
+	height: 100%;
+	background-size: cover;
+	background-color: rgba(0, 0, 0, 0.1);
+	background-position: center;
+	position: absolute;
+	right: 0;
+	transition: width 0.5s;
+}
+
+.fullscreenBg {
+	width: 100%;
+}
+
+.imgCredit {
+	position: absolute;
+	bottom: 20px;
+	width: 100%;
+	left: 0;
+	color: #fff;
+	font-size: 0.8rem;
+	text-align: center;
+	opacity: 0.7;
+}
+
+.imgCredit a {
+	color: #fff;
+}
+
+/* --------- */
+/*  Buttons  */
+/* --------- */
+
+.controlBtns {
+	position: absolute;
+	top: 15px;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 20px;
+	opacity: 0;
+	transition: opacity 0.4s;
+}
+
+.background:hover .controlBtns {
+	opacity: 1;
+}
+
+.fullViewToggleBtn {
+	width: 25px;
+	height: 25px;
+	border: none;
+	border-radius: 0;
+	background: transparent;
+	transition: transform 0.5s;
+}
+
+.fullscreenBg .fullViewToggleBtn {
+	transform: rotate(180deg);
+}
+
+.fullViewToggleBtn:before,
+.fullViewToggleBtn:after {
+	content: "";
+	display: block;
+	width: 2px;
+	height: 10px;
+	background: #ffffff;
+	transform: translateX(3px) translateY(2px) rotate(45deg);
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+.fullViewToggleBtn:after {
+	transform: translateX(3px) translateY(-2px) rotate(-45deg);
+}
+
+.settingsBtn {
+	width: 25px;
+}

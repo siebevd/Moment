@@ -1,11 +1,11 @@
 /* ---------- */
 /*    BASE    */
 /* ---------- */
+
 body {
 	margin: 0;
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 }
-
 
 body * {
 	box-sizing: border-box;
@@ -19,193 +19,8 @@ ul {
 .container {
 	width: 100vw;
 	height: 100vh;
-	display: flex;
 }
 
 div {
 	font-size: 1.2rem;
-}
-
-
-
-/* ---------- */
-/*   Content  */
-/* ---------- */
-
-p {
-	margin: 0;
-	font-size: 1.1rem;
-}
-
-
-.editorContainer {
-	width: 50%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	padding: 30px 10%;
-	font-size: 1.4rem;
-	line-height: 1.5;
-	outline: none;
-	white-space: pre;
-	word-wrap: normal;
-	overflow-x: auto;
-}
-
-.editor {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	font-size: 1.4rem;
-	line-height: 1.5;
-	outline: none;
-	white-space: pre;
-	word-wrap: normal;
-}
-
-/* ---------- */
-/*    Image   */
-/* ---------- */
-
-
-.img {
-	width: 50%;
-	height: 100%;
-	background-size: cover;
-	background-position: center;
-	position: relative;
-}
-
-.imgCredit {
-	position: absolute;
-	bottom: 20px;
-	width: 100%;
-	left: 0;
-	color: #fff;
-	font-size: .8rem;
-	text-align: center;
-	opacity: .7;
-}
-
-.imgCredit a {
-	color: #fff;
-}
-
-
-
-/* ------------ */
-/*   Check Box  */
-/* ------------ */
-
-ul {
-	margin: 0;
-}
-
-.list-check {
-	list-style: none;
-	position: relative;
-}
-
-.list-checked .list-editable {
-	text-decoration: line-through;
-	opacity: .2;
-}
-
-.list-checkbox {
-	display: none;
-}
-
-
-.list-customCheckbox {
-	width: 14px;
-	height: 14px;
-	display: inline-block;
-	border: 2px solid #FFBD00;
-	margin-right: 9px;
-	border-radius: 50%;
-	transition: all .2s;
-	position: absolute;
-	top: 11px;
-	left: -25px;
-}
-
-
-input[type='checkbox']:checked + label {
-	border: 2px solid rgba(0, 0, 0, .1);
-	/*position: relative;*/
-	/*background: #FFBD00;*/
-}
-
-
-
-.list-editable {
-	min-width: 20px;
-	display: inline-block;
-	font-size: 1.1rem;
-}
-
-.list-checkContainer {
-	display: inline-block;
-}
-/* ------------ */
-/*    Quotes    */
-/* ------------ */
-
-blockquote {
-	margin: 0;
-	padding: 5px 0px 5px 20px;
-	margin: 10px 0;
-	border-left: 3px solid #FFBD00;
-}
-
-
-/* ------------ */
-/*    Titles    */
-/* ------------ */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	position: relative;
-}
-
-h1 {
-	margin: 20px 0;
-}
-
-h1:before,
-h2:before,
-h3:before,
-h4:before,
-h5:before,
-h6:before {
-	content: '#';
-	position: absolute;
-	right: 104%;
-	opacity: .1;
-}
-
-h2:before {
-	content: '##';
-}
-
-h3:before {
-	content: '###';
-}
-
-h4:before {
-	content: '####';
-}
-
-h5:before {
-	content: '#####';
-}
-
-h6:before {
-	content: '######';
 }
