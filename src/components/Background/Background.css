@@ -44,11 +44,14 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 20px;
+}
+
+.controlBtn {
 	opacity: 0;
 	transition: opacity 0.4s;
 }
 
-.background:hover .controlBtns {
+.background:hover .controlBtn {
 	opacity: 1;
 }
 
@@ -59,6 +62,8 @@
 	border-radius: 0;
 	background: transparent;
 	transition: transform 0.5s;
+	outline: none;
+	cursor: pointer;
 }
 
 .fullscreenBg .fullViewToggleBtn {
@@ -82,4 +87,14 @@
 
 .settingsBtn {
 	width: 25px;
+}
+
+.refreshBtn,
+.lockBtn {
+	height: 18px;
+	margin-left: 10px;
+}
+
+.lockedBtn {
+	opacity: 1;
 }

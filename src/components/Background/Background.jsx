@@ -1,41 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { getNewPhoto } from "utils/api.js";
-import CONFIG from "../../../config.js";
 import SettingsIcon from "components/svg/SettingsIcon.jsx";
+import RefreshIcon from "components/svg/RefreshIcon.jsx";
+import LockIcon from "components/svg/LockIcon.jsx";
+import Settings from "components/Settings/Settings.jsx";
 import "./Background.css";
 
 class Background extends React.Component {
 	state = {};
 
-	componentWillMount() {
-		getNewPhoto().then(data => {
-			console.log("what is the data", data);
+	/**
+	 * Render
+	 */
 
-			// TODO: should this be moved to the api part?
-			// tell unsplash that the image is "downloaded",
-			// which is needed to comply with the unsplash api
-			fetch(
-				`${data.links.download_location}?client_id=${CONFIG.unsplash.apiKey}`
-			)
-				.then(res => res.json())
-				.then(data => console.log("data", data))
-				.catch(e => console.log("ERR", e));
-			// Save the image
-			this.setState({
-				image: data.urls.regular,
-				user: data.user
-			});
-
-			// localStorage.setItem('photos', JSON.stringify(data));
-		});
-	}
 	render() {
 		let styles = {};
 
-		if (this.state.image) {
-			styles["backgroundImage"] = `url(${this.state.image})`;
+		const image = this.props.lockedImage || this.props.image;
+
+		console.log("what is image", image);
+
+		if (image) {
+			styles["backgroundImage"] = `url(${image.url})`;
 		}
 
 		const containerClasses = classNames("background", {
@@ -44,31 +31,45 @@ class Background extends React.Component {
 
 		return (
 			<div className={containerClasses} style={styles}>
+				{/*<Settings />*/}
 				<div className="controlBtns">
 					<button
-						className="fullViewToggleBtn"
+						className="controlBtn fullViewToggleBtn"
 						onClick={this.props.toggleFull}
 					/>
-					<SettingsIcon className="settingsBtn" />
-				</div>
-				{this.state.user && (
-					<div className="imgCredit">
-						Photo by{" "}
-						<a
-							href={`https://unsplash.com/@${
-								this.state.user.username
-							}?utm_source=moment&utm_medium=referral&utm_campaign=api-credit`}
-						>
-							{this.state.user.name}
-						</a>{" "}
-						/{" "}
-						<a
-							href={`https://unsplash.com?utm_source=moment&utm_medium=referral&utm_campaign=api-credit`}
-						>
-							Unsplash
-						</a>
+					{/*<SettingsIcon className="settingsBtn" />*/}
+					<div className="rightBtns">
+						<RefreshIcon
+							className="controlBtn refreshBtn"
+							onClick={this.props.updateImage}
+						/>
+						<LockIcon
+							className={classNames("controlBtn", "lockBtn", {
+								lockedBtn: !!this.props.lockedImage
+							})}
+							onClick={this.props.lockImage}
+						/>
 					</div>
-				)}
+				</div>
+				{image &&
+					image.contributor && (
+						<div className="imgCredit">
+							Photo by{" "}
+							<a
+								href={`https://unsplash.com/@${
+									image.contributor.username
+								}?utm_source=moment&utm_medium=referral&utm_campaign=api-credit`}
+							>
+								{image.contributor.name}
+							</a>{" "}
+							/{" "}
+							<a
+								href={`https://unsplash.com?utm_source=moment&utm_medium=referral&utm_campaign=api-credit`}
+							>
+								Unsplash
+							</a>
+						</div>
+					)}
 			</div>
 		);
 	}
@@ -76,7 +77,11 @@ class Background extends React.Component {
 
 Background.propTypes = {
 	fullscreen: PropTypes.bool.isRequired,
-	toggleFull: PropTypes.func.isRequired
+	toggleFull: PropTypes.func.isRequired,
+	updateImage: PropTypes.func.isRequired,
+	lockImage: PropTypes.func.isRequired,
+	lockedImage: PropTypes.object,
+	image: PropTypes.object
 };
 
 export default Background;
