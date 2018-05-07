@@ -4,16 +4,13 @@
 	"description": "",
 	"main": "index.js",
 	"lint-staged": {
-		"*.{js,jsx}": [
-			"npm run pretty",
-			"git add"
-		]
+		"*.{js,jsx}": ["npm run pretty", "git add"]
 	},
 	"scripts": {
 		"precommit": "lint-staged",
 		"pretty": "prettier --write --use-tabs \"src/**/*.(js|jsx)\"",
 		"dev": "webpack --config webpack.config.js --watch",
-		"prod": "webpack --config webpack.config.js"
+		"prod": "NODE_ENV=production webpack --config webpack.config.js"
 	},
 	"author": "siebe van dijck <vandijckske@gmail.com>",
 	"dependencies": {

@@ -1,48 +1,39 @@
-const { resolve } = require('path');
-const webpack = require('webpack');
+const { resolve } = require("path");
+const webpack = require("webpack");
+const prod = process.env.NODE_ENV === "production";
 
 module.exports = {
-	entry: [
-		'./index.js',
-	],
+	entry: ["./index.js"],
 	output: {
-		publicPath: '/'
+		publicPath: "/"
 	},
-	devtool: 'cheap-source-map',
+	devtool: "cheap-source-map",
 
 	output: {
-		filename: 'app.js',
-		path: resolve(__dirname, 'js'),
+		filename: "app.js",
+		path: resolve(__dirname, "js")
 	},
-	context: resolve(__dirname, 'src'),
+	context: resolve(__dirname, "src"),
 
 	resolve: {
-		modules: [
-			resolve(__dirname, "src"),
-			"node_modules"
-		]
+		modules: [resolve(__dirname, "src"), "node_modules"]
 	},
 	module: {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				use: [
-					'babel-loader',
-				],
+				use: ["babel-loader"],
 				exclude: /node_modules/
 			},
 			{
 				test: /\.css$/,
-				use: [
-					'style-loader',
-					'css-loader',
-				],
-			},
-		],
+				use: ["style-loader", "css-loader"]
+			}
+		]
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify('production')
+			"process.env.NODE_ENV": JSON.stringify("production")
 		}),
 		new webpack.optimize.UglifyJsPlugin({
 			beautify: false,
@@ -52,9 +43,10 @@ module.exports = {
 			},
 			compress: {
 				screw_ie8: true,
-				warnings: false
+				warnings: false,
+				drop_console: prod
 			},
 			comments: false
 		})
 	]
-}
+};
