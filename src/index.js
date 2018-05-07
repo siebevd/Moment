@@ -9,7 +9,7 @@ import styles from "./app.css";
 
 class App extends React.Component {
 	state = {
-		fullBackground: false,
+		fullBackground: !!localStorage.getItem("fullBackground"),
 		lockedImage: JSON.parse(localStorage.getItem("lockedImage")) || null
 	};
 
@@ -44,7 +44,7 @@ class App extends React.Component {
 					image: {
 						url: data.urls.regular,
 						contributor: data.user,
-						type: "unsplash"
+						type: "unsplash" // store type for future reference (when we start adding in multiple types)
 					}
 				};
 
@@ -83,10 +83,18 @@ class App extends React.Component {
 	};
 
 	toggleFull = () => {
-		console.log("toggle the state");
-		this.setState(oldState => ({
-			fullBackground: !oldState.fullBackground
-		}));
+		this.setState(oldState => {
+			if (oldState.fullBackground) {
+				// remove the key as we won't be fullscreen anymore
+				localStorage.removeItem("fullBackground");
+			} else {
+				// set the full background
+				localStorage.setItem("fullBackground", true);
+			}
+			return {
+				fullBackground: !oldState.fullBackground
+			};
+		});
 	};
 
 	/**
@@ -94,7 +102,6 @@ class App extends React.Component {
 	 */
 
 	render() {
-		console.log("locked", this.state);
 		return (
 			<div className="container">
 				<MarkdownEditor />
