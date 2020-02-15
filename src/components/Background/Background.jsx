@@ -1,18 +1,37 @@
 import React from "react";
+import ReactDOM from "react-dom"
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import SettingsIcon from "components/svg/SettingsIcon.jsx";
 import RefreshIcon from "components/svg/RefreshIcon.jsx";
 import LockIcon from "components/svg/LockIcon.jsx";
-import Settings from "components/Settings/Settings.jsx";
+
+import { saveOptions, restoreOptions } from "utils/settings.js";
 import "./Background.css";
 
 class Background extends React.Component {
-	state = {};
+	state = { showSettings: false };
+
+	toggleSettings = () => {
+		this.setState({ showSettings: !this.state.showSettings })
+	}
 
 	/**
 	 * Render
 	 */
+
+	componentDidMount() {
+		if (!this.props.lockedImage) {
+			this.props.updateImage();
+		}
+	}
+
+	componentDidUpdate() {
+		if (this.state.showSettings) {
+			var ref = ReactDOM.findDOMNode(this.refs.queryText);
+			restoreOptions(ref);
+		}
+	}
 
 	render() {
 		let styles = {};
@@ -31,14 +50,22 @@ class Background extends React.Component {
 
 		return (
 			<div className={containerClasses} style={styles}>
-				{/*<Settings />*/}
 				<div className="controlBtns">
 					<button
 						className="controlBtn fullViewToggleBtn"
 						onClick={this.props.toggleFull}
 					/>
-					{/*<SettingsIcon className="settingsBtn" />*/}
 					<div className="rightBtns">
+						{this.state.showSettings ? <input 
+							className="controlBtn" 
+							type="text" ref="queryText" id="queryText" 
+							onChange={() =>  saveOptions(ReactDOM.findDOMNode(this.refs.queryText))}
+						/> : false}
+						
+						<SettingsIcon
+							className="controlBtn settingsBtn"
+							onClick={this.toggleSettings}
+						/>
 						<RefreshIcon
 							className="controlBtn refreshBtn"
 							onClick={this.props.updateImage}

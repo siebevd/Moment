@@ -32,6 +32,10 @@
 	color: #fff;
 }
 
+.queryText {
+	margin-left: 10px;
+}
+
 /* --------- */
 /*  Buttons  */
 /* --------- */
@@ -85,12 +89,9 @@
 	transform: translateX(3px) translateY(-2px) rotate(-45deg);
 }
 
-.settingsBtn {
-	width: 25px;
-}
-
 .refreshBtn,
-.lockBtn {
+.lockBtn,
+.settingsBtn {
 	height: 18px;
 	margin-left: 10px;
 	cursor: pointer;

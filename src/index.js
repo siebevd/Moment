@@ -14,16 +14,6 @@ class App extends React.Component {
 	};
 
 	/**
-	 * Life Cycle
-	 */
-
-	componentDidMount() {
-		if (!this.state.lockedImage) {
-			this.updateImage();
-		}
-	}
-
-	/**
 	 * Event Handlers
 	 */
 
