@@ -1,15 +1,19 @@
 {
 	"name": "Moment - New Tab Markdown notes & task list",
-	"homepage_url": "http://siebevd.be",
-	"description": "Don't lose what grabs you in the moment.",
+	"homepage_url": "https://rustie.xyz/",
+	"description": "Simple markdown tab. Original author Siebe Van Dijck",
 	"version": "0.1.8",
 	"incognito": "split",
 	"chrome_url_overrides": {
 		"newtab": "blank.html"
 	},
-	"author": "Siebe Van Dijck",
+	"author": "Rustie",
 	"icons": {
 		"128": "moment128.png"
 	},
-	"manifest_version": 2
+	"manifest_version": 2,
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": false
+	}
 }
